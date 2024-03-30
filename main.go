@@ -99,27 +99,6 @@ func Unmarshal(peersBin []byte) ([]Peer, error) {
 	return peers, nil
 }
 
-type BitField []byte
-
-func getIdxOffset(pieceIndex int) (int, int) {
-	idx := pieceIndex / 8
-	offset := pieceIndex % 8
-	return idx, offset
-}
-
-// func (bf BitField) Has(pieceIndex int) bool {
-// 	idx, offset := getIdxOffset(pieceIndex)
-// 	return ((bf[idx] >> (8 - offset)) & 0x1) != 0x0
-// }
-
-// func (bf BitField) Set(pieceIndex int) {
-// 	idx, offset := getIdxOffset(pieceIndex)
-// 	val := bf[idx]
-// 	mask := (0x1 << 8)
-// 	val |= mask
-// 	bf[idx] = val
-// }
-
 // type TorrentConnection struct {
 // 	conn                                                     net.Conn
 // 	peer                                                     Peer
