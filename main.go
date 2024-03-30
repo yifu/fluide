@@ -213,7 +213,7 @@ func main() {
 	//fmt.Println("tracker resp: ", trackerResp)
 
 	// Check if the tracker Peers response is in compact format or not.
-	log.Println("len(trackerResp.Peers)", len(trackerResp.Peers), ", trackerResp.Peers[0]", trackerResp.Peers[0])
+	log.Println("len(trackerResp.Peers)", len(trackerResp.Peers), ", trackerResp.Peers[0]", string(trackerResp.Peers[0]))
 	if len(trackerResp.Peers) > 0 && trackerResp.Peers[0] == 'd' {
 		log.Println("We are in a dictionary format!")
 		// The reponse is a dictionnary, as a consequence it is not in compact format.
