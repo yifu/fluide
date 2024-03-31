@@ -53,6 +53,13 @@ func TestGetBitfield4(t *testing.T) {
 	}
 }
 
+func TestGetBitfield5(t *testing.T) {
+	b := BitField{0b10000000, 0b00000000}
+	if present, err := b.Has(0); err != nil || !present {
+		t.Fatal("Expecting to have the first bit field set")
+	}
+}
+
 func TestSetBitfield1(t *testing.T) {
 	b := BitField{0b00000000}
 	BitField.Set(b, 0)
