@@ -13,6 +13,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/jackpal/bencode-go"
@@ -193,6 +194,7 @@ func main() {
 
 	// Check if the tracker Peers response is in compact format or not.
 	log.Println("len(trackerResp.Peers)", len(trackerResp.Peers), ", trackerResp.Peers[0]", string(trackerResp.Peers[0]))
+	var peers []Peer
 	if len(trackerResp.Peers) > 0 && trackerResp.Peers[0] == 'd' {
 		log.Println("We are in a dictionary format!")
 		// The reponse is a dictionnary, as a consequence it is not in compact format.
@@ -205,7 +207,7 @@ func main() {
 		fmt.Println(peer)
 	} else {
 		log.Println("Not in a dictionnary format! (i.e compact format)")
-		peers, err := Unmarshal([]byte(trackerResp.Peers))
+		peers, err = Unmarshal([]byte(trackerResp.Peers))
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -246,4 +248,21 @@ func main() {
 		log.Fatalln(err)
 	}
 	log.Println("File ", recipientFn, " create with size of ", store.Bytesalloc, ".")
+
+	var wg sync.WaitGroup
+	if peers == nil {
+
+	} else {
+		for _, p := range peers {
+			wg.Add(1)
+			go connectToPeer(p, &wg)
+		}
+		wg.Wait()
+		log.Println("Exit.")
+	}
+}
+
+func connectToPeer(p Peer, wg *sync.WaitGroup) {
+	log.Println("Connect to peer ", p)
+	defer wg.Done()
 }
