@@ -21,10 +21,14 @@ func (bf BitField) Has(pieceIndex int) (bool, error) {
 	return ((bf[idx] >> (7 - offset)) & 0x1) != 0x0, nil
 }
 
-func (bf BitField) Set(pieceIndex int) {
+func (bf BitField) Set(pieceIndex int) error {
 	idx, offset := getIdxOffset(pieceIndex)
+	if idx < 0 || idx >= len(bf) {
+		return errors.New(fmt.Sprintf("Out Of Bound in BitField, idx=%v.", idx))
+	}
 	val := bf[idx]
 	var mask byte = (0x1 << (7 - offset))
 	val |= mask
 	bf[idx] = val
+	return nil
 }

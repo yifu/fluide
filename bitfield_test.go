@@ -62,7 +62,10 @@ func TestGetBitfield5(t *testing.T) {
 
 func TestSetBitfield1(t *testing.T) {
 	b := BitField{0b00000000}
-	BitField.Set(b, 0)
+	err := BitField.Set(b, 0)
+	if err != nil {
+		t.Fatalf("Error while setting a bitfield %v", err)
+	}
 	want := BitField{0b10000000}
 	if !reflect.DeepEqual(b, want) {
 		t.Fatalf("%b is the computed value, while expecting %v", b, want)
@@ -71,7 +74,10 @@ func TestSetBitfield1(t *testing.T) {
 
 func TestSetBitfield2(t *testing.T) {
 	b := BitField{0b00000000}
-	BitField.Set(b, 7)
+	err := BitField.Set(b, 7)
+	if err != nil {
+		t.Fatalf("Error while setting a bitfield %v", err)
+	}
 	want := BitField{0b00000001}
 	if !reflect.DeepEqual(b, want) {
 		t.Fatalf("%b is the computed value, while expecting %v", b, want)
